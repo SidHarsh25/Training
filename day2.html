@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>TypeScript Day 2</title>
+
+
+</head>
+
+<body>
+  <div id="clock"></div>
+  <h1 id="gameOut1"> </h1>
+  <script>
+    function currentTime() {
+      let date = new Date();
+      let hh = date.getHours();
+      let mm = date.getMinutes();
+      let ss = date.getSeconds();
+      let session = "AM";
+
+      if (hh == 0) {
+        hh = 12;
+      }
+      if (hh > 12) {
+        hh = hh - 12;
+        session = "PM";
+      }
+
+      hh = (hh < 10) ? "0" + hh : hh;
+      mm = (mm < 10) ? "0" + mm : mm;
+      ss = (ss < 10) ? "0" + ss : ss;
+
+      let time = hh + ":" + mm + ":" + ss + " " + session;
+
+      document.getElementById("clock").innerText = "Today Day : " + date.toLocaleString('en-us', { weekday: 'long' }) + " " + time;
+      //let clock = document.createElement("div");
+      //clock.innerText = time;
+      let t = setTimeout(function () { currentTime() }, 1000);
+      console.log(t);
+    }
+    const dateY = new Date();
+
+    const year = dateY.getFullYear();
+    const month = dateY.getMonth() + 1;
+    const day = dateY.getDate();
+    const withSlashes = [day, month, year].join('/');
+
+    console.log("date ", withSlashes, " ", day);
+
+    let td = document.createElement("div");
+    td.innerText = "Today Date :  " + withSlashes;
+    document.body.appendChild(td);
+    //currentTime();
+
+    let game1 = document.createElement("div");
+    game1.setAttribute("id", "game1");
+    game1.innerText = "Game 1";
+    document.body.appendChild(game1);
+
+    let winNumber = Math.floor(Math.random() * (10 - 1) + 1);
+    console.log("win: ", winNumber);
+    let maxChance = 3;
+    document.getElementById("game1").onclick = function () {
+      if (maxChance != 0) {
+        let person = prompt("Guess the Number and Win \nYou have " + maxChance + " chances");
+
+        if (person != null && person == winNumber) {
+          document.getElementById("gameOut1").innerHTML =
+            "Hello " +  + "! Right Guess ";
+        }else{
+         // document.getElementById("gameOut1").innerHTML =
+           // "Hello " +  + "! Wrong Guess ";
+           let person = prompt("Guess the Number and Win \nYou have " + maxChance + " chances");
+        }
+
+        maxChance--;
+      }else{
+        alert("Max attempt Reached");
+      }
+
+
+    }
+
+    // let time = document.createElement("h1");
+    // time.textContent = currentTime();
+
+    // document.body.style.background = 'grey';
+
+
+    // var form = document.createElement("form");
+    // form.setAttribute("method", "post");
+    // form.setAttribute("action", "");
+
+    // var name = document.createElement("input");
+    // // name.setAttribute("type", "text");
+    // // name.setAttribute("name", "name");
+    // // name.setAttribute("placeholder", "Name");
+
+
+    // var email = document.createElement("input");
+    // email.setAttribute("type", "email");
+    // email.setAttribute("name", "email");
+    // email.setAttribute("placeholder", "Email");
+
+    // var s = document.createElement("input");
+    // s.setAttribute("type", "submit");
+    // s.setAttribute("value", "Submit");
+
+
+    // form.append(name);
+
+
+    // form.append(email);
+
+
+    // form.append(s);
+
+    // document.getElementsByTagName("body")[0]
+    //   .appendChild(form);
+
+  </script>
+</body>
+
+</html>
