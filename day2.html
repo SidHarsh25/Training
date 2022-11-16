@@ -9,8 +9,17 @@
 
 <body>
   <div id="clock"></div>
+
   <h1 id="gameOut1"> </h1>
+
+  <div id="cal">
+    <p id="res" style="display:none;"></p>
+    </div>
+    <div id="n">
+      <p id="nCall"> n Number Sum Game : </p>
+      </div>
   <script>
+    var cal =  document.getElementById("cal");
     function currentTime() {
       let date = new Date();
       let hh = date.getHours();
@@ -58,28 +67,113 @@
     document.body.appendChild(game1);
 
     let winNumber = Math.floor(Math.random() * (10 - 1) + 1);
-    console.log("win: ", winNumber);
-    let maxChance = 3;
-    document.getElementById("game1").onclick = function () {
-      if (maxChance != 0) {
+   
+    var maxChance = 3;
+    document.getElementById("game1").onclick = Guesser;
+    console.log("win: ", winNumber, " chances : ",maxChance);
+    function Guesser () {
+      if (maxChance != 0 && maxChance >= 0) {
+          //  Guesser();
+          console.log("win 1: ", winNumber, " chances 1 : ",maxChance);
+
         let person = prompt("Guess the Number and Win \nYou have " + maxChance + " chances");
-
+       
         if (person != null && person == winNumber) {
-          document.getElementById("gameOut1").innerHTML =
-            "Hello " +  + "! Right Guess ";
+         return document.getElementById("gameOut1").innerHTML = " You Won!! ";
+          //  let person = prompt("Guess the Number and Win \nYou have " + maxChance + " chances");
         }else{
-         // document.getElementById("gameOut1").innerHTML =
-           // "Hello " +  + "! Wrong Guess ";
-           let person = prompt("Guess the Number and Win \nYou have " + maxChance + " chances");
+         document.getElementById("gameOut1").innerHTML = "You Loose , try another time ";
+        //  let person = prompt("Guess the Number and Win \nYou have " + maxChance + " chances");
         }
-
-        maxChance--;
+        
       }else{
-        alert("Max attempt Reached");
+       return  alert("Max attempt Reached");
       }
+
+       // console.log("per : ",person);
+        maxChance--;
+      
+
+       Guesser();
 
 
     }
+
+    var numOne, numTwo, res, temp;
+function fun()
+{
+  numOne = parseInt(document.getElementById("one").value);
+  numTwo = parseInt(document.getElementById("two").value);
+  if(numOne && numTwo)
+  {
+    temp = document.getElementById("res");
+    temp.style.display = "block";
+    res = numOne + numTwo;
+    console.log(numOne," val ",numTwo , " res ",res);
+    document.getElementById("add").innerHTML = "Add Value: "+res;
+    res = numOne - numTwo;
+    document.getElementById("subtract").innerHTML = "Subtract Value: "+res;
+    res = numOne * numTwo;
+    document.getElementById("multiply").innerHTML = "Multiply Value: "+res;
+    res = numOne / numTwo;
+    document.getElementById("divide").innerHTML = "Divide Value: "+res;
+  }
+}
+let in1 = document.createElement("input");
+let in2 = document.createElement("input");
+
+
+  in1.setAttribute("type", "text");
+     in1.setAttribute("id", "one");
+     in1.setAttribute("placeholder", "Ente number one");
+     in2.setAttribute("type", "text");
+     in2.setAttribute("id", "two");
+     in2.setAttribute("placeholder", "Ente number two");
+
+      let butt = document.createElement("button");
+    //  butt.setAttribute("content", "Add, Subtract, Multiply, Divide");
+      butt.setAttribute("onclick", "fun()");
+      butt.textContent = 'Add, Subtract, Multiply, Divide';
+cal.appendChild(in1);
+cal.appendChild(in2);
+cal.appendChild(butt);
+
+let add = document.createElement("p");
+let sub = document.createElement("p");
+let multi = document.createElement("p");
+let div = document.createElement("p");
+
+add.setAttribute("id", "add");
+sub.setAttribute("id", "subtract");
+multi.setAttribute("id", "multiply");
+div.setAttribute("id", "divide");
+
+
+cal.appendChild(add);
+cal.appendChild(sub);
+cal.appendChild(multi);
+cal.appendChild(div);
+
+document.getElementById("nCall").onclick = ner;
+   let last = 0;
+    function ner () {
+      let n = prompt("Enter a Number to Sum");
+      n = parseInt(n);
+      console.log("sum ",last, " current ",n)
+      if (isNaN(n) ) { 
+        alert("Please Enter Number only");
+      }else{
+
+      if(Math.sign(n) == -1){
+          document.getElementById("nCall").innerHTML = " n Number Sum Game : "+last;
+      }else{
+        last += parseInt(n);
+        ner();
+      }
+    }
+
+    }
+
 
     // let time = document.createElement("h1");
     // time.textContent = currentTime();
