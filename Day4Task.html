@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo List</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  <style>
+     /* ------------Initial Phase CSS--------------- */
+
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: linear-gradient(120deg, skyblue, blue);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+header,
+form {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header {
+  font-size: 40px;
+}
+
+form input,
+form button {
+  padding: 10px;
+  border: none;
+  font-size: 24px;
+  background: white;
+  outline: none;
+}
+form button {
+  color: blue;
+  background-color: white;
+  cursor: pointer;
+}
+form button:hover {
+  color: white;
+  background-color: skyblue;
+}
+
+/* ----------------New List Container----------------- */
+
+.todo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-list {
+  min-width: 25%;
+  list-style: none;
+}
+.todo {
+  margin: 8px;
+  font-size: 24px;
+  background: white;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.todo li {
+  flex: 1;
+}
+.cmplt-btn,
+.delete-btn {
+  background-color: darkseagreen;
+  color: white;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+}
+.delete-btn {
+  background-color: deeppink;
+}
+.todo-item {
+  margin: 0 8px;
+}
+
+.fa-trash,
+.fa-check {
+  pointer-events: none;
+}
+.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+  </style>
+  </head>
+  <body>
+    <header>Fullstack To-do List</header>
+    <form>
+      <input type="text" class="todo-input" />
+      <button>
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+      </button>
+    </form>
+    <div class="todo-container">
+      <ul class="todo-list"></ul>
+    </div>
+
+    <script>
+        // Selectors
+var todoInput = document.querySelector(".todo-input");
+var btn = document.querySelector("button");
+var todolist = document.querySelector(".todo-list");
+
+//Event Handlers
+btn.onclick = create;
+todolist.onclick = deletecheck;
+
+//Functions
+var data = [];
+var i = 0;
+//sessionStorage.clear();
+localStorage.clear();
+if(localStorage.getItem("todo")) {
+  data = JSON.parse(localStorage.getItem("todo"));
+  i=data.length;
+
+  data.map(i=>create(i.task));
+  }else{
+     i = 0;
+  }
+
+
+function create(e,d) {
+  console.log(todoInput.value," i ",i ," - ",todoInput.value ," cond ",i==0);
+  if (todoInput.value == "" && i == 0) {
+    e.preventDefault();
+
+    var newDiv = document.createElement("div");
+    newDiv.classList.add("todo");
+
+    var newLi = document.createElement("li");
+    newLi.classList.add("todo-item");
+    if(d){
+      newLi.innerHTML = d;//todoInput.value;
+    }else{
+      newLi.innerHTML = todoInput.value;
+    }
+ 
+    newDiv.appendChild(newLi);
+    data[i] ={"task" :todoInput.value};
+    localStorage['todo'] = JSON.stringify(data);
+   // console.log(localStorage.getItem("todo").length," data : ",JSON.parse(localStorage.getItem("todo")," ",Object.keys(JSON.parse(localStorage.getItem("todo"))).length));
+
+    var cmpltbtn = document.createElement("button");
+    cmpltbtn.classList.add("cmplt-btn");
+    cmpltbtn.innerHTML = '<i class="fa fa-check"></i>';
+    newDiv.appendChild(cmpltbtn);
+
+    var deletebtn = document.createElement("button");
+    deletebtn.classList.add("delete-btn");
+    deletebtn.innerHTML = '<i class="fa fa-trash"></i>';
+    newDiv.appendChild(deletebtn);
+    
+    todolist.appendChild(newDiv);
+    todoInput.value = "";
+  } else {
+    alert("Input Field Can't Be Blank");
+  }
+i++;
+}
+
+function deletecheck(e) {
+  var item = e.target;
+
+  if (item.classList[0] === "delete-btn") {
+    var parent = item.parentElement;
+    parent.remove();
+  }
+
+  if (item.classList[0] === "cmplt-btn") {
+    var parent = item.parentElement;
+    parent.classList.toggle("completed");
+  }
+}
+    </script>
+  </body>
+</html>
